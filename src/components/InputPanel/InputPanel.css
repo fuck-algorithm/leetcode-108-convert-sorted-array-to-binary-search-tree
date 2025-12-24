@@ -1,0 +1,148 @@
+.input-panel {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  padding: 10px 20px;
+  border-bottom: 1px solid #2d3748;
+}
+
+.input-section {
+  margin-bottom: 8px;
+}
+
+.input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.input-label {
+  color: #a0aec0;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.input-field {
+  flex: 1;
+  min-width: 200px;
+  max-width: 400px;
+  padding: 6px 12px;
+  border: 1px solid #4a5568;
+  border-radius: 6px;
+  background: #2d3748;
+  color: #f7fafc;
+  font-size: 13px;
+  font-family: 'Monaco', 'Menlo', monospace;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #63b3ed;
+  box-shadow: 0 0 0 2px rgba(99, 179, 237, 0.2);
+}
+
+.submit-btn {
+  padding: 6px 16px;
+  background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.submit-btn:hover {
+  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+}
+
+.random-btn {
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.random-btn:hover {
+  background: linear-gradient(135deg, #63b3ed 0%, #4299e1 100%);
+}
+
+.error-message {
+  color: #fc8181;
+  font-size: 12px;
+  margin-top: 6px;
+  padding-left: 70px;
+}
+
+.samples-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.samples-label {
+  color: #718096;
+  font-size: 12px;
+}
+
+.sample-btn {
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #4a5568;
+  border-radius: 4px;
+  color: #a0aec0;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.sample-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #63b3ed;
+  color: #f7fafc;
+}
+
+.method-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.method-label {
+  color: #a0aec0;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.method-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.method-tab {
+  padding: 5px 12px;
+  background: transparent;
+  border: 1px solid #4a5568;
+  border-radius: 6px;
+  color: #a0aec0;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.method-tab:hover {
+  border-color: #63b3ed;
+  color: #f7fafc;
+}
+
+.method-tab.active {
+  background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+  border-color: #4299e1;
+  color: white;
+}
