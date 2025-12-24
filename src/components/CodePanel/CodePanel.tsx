@@ -30,10 +30,8 @@ export function CodePanel({ currentStep, method }: CodePanelProps) {
   const getVariableDisplay = (lineIndex: number): string | null => {
     if (!currentStep) return null;
     
-    // 根据当前步骤和行号显示变量值
     const vars = currentStep.variables;
     
-    // 根据不同语言和行号匹配变量显示
     if (language === 'java' || language === 'javascript' || language === 'golang') {
       if (lineIndex === 11 && vars.mid !== null && vars.mid !== undefined) {
         return `// mid = ${vars.mid}`;
@@ -84,7 +82,7 @@ export function CodePanel({ currentStep, method }: CodePanelProps) {
               >
                 <span className="line-number">{lineNumber}</span>
                 <span className="line-content">
-                  {renderSyntaxHighlight(line, language)}
+                  <SyntaxHighlightedLine line={line} language={language} />
                 </span>
                 {variableDisplay && (
                   <span className="variable-display">{variableDisplay}</span>
@@ -98,48 +96,89 @@ export function CodePanel({ currentStep, method }: CodePanelProps) {
   );
 }
 
-// 简单的语法高亮
-function renderSyntaxHighlight(line: string, language: ProgrammingLanguage): React.ReactNode {
-  const keywords: Record<ProgrammingLanguage, string[]> = {
-    java: ['class', 'public', 'private', 'int', 'return', 'if', 'new', 'null'],
-    python: ['class', 'def', 'self', 'return', 'if', 'None', 'int'],
-    golang: ['func', 'return', 'if', 'nil', 'int', 'var'],
-    javascript: ['function', 'var', 'const', 'let', 'return', 'if', 'new', 'null']
-  };
+// Token 类型
+interface Token {
+  type: 'keyword' | 'type' | 'number' | 'string' | 'comment' | 'text';
+  value: string;
+}
 
-  const types: Record<ProgrammingLanguage, string[]> = {
-    java: ['TreeNode', 'Solution'],
-    python: ['TreeNode', 'Solution', 'List'],
-    golang: ['TreeNode'],
-    javascript: ['TreeNode']
-  };
-
-  let result = line;
+// 语法高亮组件
+function SyntaxHighlightedLine({ line, language }: { line: string; language: ProgrammingLanguage }) {
+  const tokens = tokenize(line, language);
   
-  // 高亮注释
-  if (language === 'python') {
-    result = result.replace(/(#.*)$/, '<span class="comment">$1</span>');
-  } else {
-    result = result.replace(/(\/\/.*)$/, '<span class="comment">$1</span>');
+  return (
+    <>
+      {tokens.map((token, index) => {
+        if (token.type === 'text') {
+          return <span key={index}>{token.value}</span>;
+        }
+        return (
+          <span key={index} className={token.type}>
+            {token.value}
+          </span>
+        );
+      })}
+    </>
+  );
+}
+
+// 词法分析
+function tokenize(line: string, language: ProgrammingLanguage): Token[] {
+  const keywords: Record<ProgrammingLanguage, Set<string>> = {
+    java: new Set(['class', 'public', 'private', 'int', 'return', 'if', 'new', 'null']),
+    python: new Set(['class', 'def', 'self', 'return', 'if', 'None', 'int']),
+    golang: new Set(['func', 'return', 'if', 'nil', 'int', 'var']),
+    javascript: new Set(['function', 'var', 'const', 'let', 'return', 'if', 'new', 'null'])
+  };
+
+  const types: Record<ProgrammingLanguage, Set<string>> = {
+    java: new Set(['TreeNode', 'Solution']),
+    python: new Set(['TreeNode', 'Solution', 'List']),
+    golang: new Set(['TreeNode']),
+    javascript: new Set(['TreeNode'])
+  };
+
+  const tokens: Token[] = [];
+  let remaining = line;
+  
+  // 检查注释
+  const commentStart = language === 'python' ? '#' : '//';
+  const commentIndex = remaining.indexOf(commentStart);
+  
+  let mainPart = remaining;
+  let commentPart = '';
+  
+  if (commentIndex !== -1) {
+    mainPart = remaining.substring(0, commentIndex);
+    commentPart = remaining.substring(commentIndex);
   }
-
-  // 高亮关键字
-  keywords[language].forEach(keyword => {
-    const regex = new RegExp(`\\b(${keyword})\\b`, 'g');
-    result = result.replace(regex, '<span class="keyword">$1</span>');
-  });
-
-  // 高亮类型
-  types[language].forEach(type => {
-    const regex = new RegExp(`\\b(${type})\\b`, 'g');
-    result = result.replace(regex, '<span class="type">$1</span>');
-  });
-
-  // 高亮数字
-  result = result.replace(/\b(\d+)\b/g, '<span class="number">$1</span>');
-
-  // 高亮字符串
-  result = result.replace(/(".*?")/g, '<span class="string">$1</span>');
-
-  return <span dangerouslySetInnerHTML={{ __html: result }} />;
+  
+  // 处理主要部分
+  const wordRegex = /([a-zA-Z_][a-zA-Z0-9_]*)|(\d+)|(\s+)|([^\w\s]+)/g;
+  let match;
+  
+  while ((match = wordRegex.exec(mainPart)) !== null) {
+    const value = match[0];
+    
+    if (/^\d+$/.test(value)) {
+      tokens.push({ type: 'number', value });
+    } else if (/^[a-zA-Z_]/.test(value)) {
+      if (keywords[language].has(value)) {
+        tokens.push({ type: 'keyword', value });
+      } else if (types[language].has(value)) {
+        tokens.push({ type: 'type', value });
+      } else {
+        tokens.push({ type: 'text', value });
+      }
+    } else {
+      tokens.push({ type: 'text', value });
+    }
+  }
+  
+  // 添加注释部分
+  if (commentPart) {
+    tokens.push({ type: 'comment', value: commentPart });
+  }
+  
+  return tokens;
 }
