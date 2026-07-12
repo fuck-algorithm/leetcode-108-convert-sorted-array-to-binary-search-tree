@@ -87,77 +87,78 @@ export function ControlPanel({
 
   return (
     <div className="control-panel">
-      <div className="control-buttons">
-        <button 
-          className="control-btn" 
-          onClick={onPrevStep}
-          disabled={currentStep === 0}
-          title="上一步 (←)"
-        >
-          ⏮ 上一步 <span className="shortcut">←</span>
-        </button>
-        
-        <button 
-          className="control-btn play-btn" 
-          onClick={onPlayPause}
-          title={isPlaying ? '暂停 (空格)' : '播放 (空格)'}
-        >
-          {isPlaying ? '⏸ 暂停' : '▶ 播放'} <span className="shortcut">空格</span>
-        </button>
-        
-        <button 
-          className="control-btn" 
-          onClick={onNextStep}
-          disabled={currentStep >= totalSteps - 1}
-          title="下一步 (→)"
-        >
-          下一步 ⏭ <span className="shortcut">→</span>
-        </button>
-        
-        <button 
-          className="control-btn reset-btn" 
-          onClick={onReset}
-          title="重置 (R)"
-        >
-          🔄 重置 <span className="shortcut">R</span>
-        </button>
+      <div className="control-row">
+        <div className="control-buttons">
+          <button
+            className="control-btn"
+            onClick={onPrevStep}
+            disabled={currentStep === 0}
+            title="上一步 (←)"
+          >
+            ⏮ <span className="shortcut">←</span>
+          </button>
 
-        <div className="speed-control">
-          <span className="speed-label">速度:</span>
-          <div className="speed-buttons">
-            {SPEED_OPTIONS.map(s => (
-              <button
-                key={s}
-                className={`speed-btn ${speed === s ? 'active' : ''}`}
-                onClick={() => handleSpeedChange(s)}
-              >
-                {s}x
-              </button>
-            ))}
+          <button
+            className="control-btn play-btn"
+            onClick={onPlayPause}
+            title={isPlaying ? '暂停 (空格)' : '播放 (空格)'}
+          >
+            {isPlaying ? '⏸' : '▶'} <span className="shortcut">空格</span>
+          </button>
+
+          <button
+            className="control-btn"
+            onClick={onNextStep}
+            disabled={currentStep >= totalSteps - 1}
+            title="下一步 (→)"
+          >
+            ⏭ <span className="shortcut">→</span>
+          </button>
+
+          <button
+            className="control-btn reset-btn"
+            onClick={onReset}
+            title="重置 (R)"
+          >
+            🔄 <span className="shortcut">R</span>
+          </button>
+        </div>
+
+        <div className="control-right">
+          <div className="speed-control">
+            <span className="speed-label">速度</span>
+            <div className="speed-buttons">
+              {SPEED_OPTIONS.map(s => (
+                <button
+                  key={s}
+                  className={`speed-btn ${speed === s ? 'active' : ''}`}
+                  onClick={() => handleSpeedChange(s)}
+                >
+                  {s}x
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
 
-        <div className="step-indicator">
-          步骤: {currentStep + 1} / {totalSteps}
-        </div>
-      </div>
+          <div className="step-indicator">
+            {currentStep + 1} / {totalSteps}
+          </div>
 
-      <div className="progress-container">
-        <div 
-          className="progress-bar"
-          style={{ 
-            background: `linear-gradient(to right, #48bb78 0%, #48bb78 ${progress}%, #2d3748 ${progress}%, #2d3748 100%)`
-          }}
-        >
-          <input
-            type="range"
-            className="progress-input"
-            min={0}
-            max={Math.max(0, totalSteps - 1)}
-            value={currentStep}
-            onChange={handleProgressChange}
-            onMouseDown={handleProgressMouseDown}
-          />
+          <div className="progress-bar">
+            <div
+              className="progress-fill"
+              style={{ width: `${progress}%` }}
+            />
+            <input
+              type="range"
+              className="progress-input"
+              min={0}
+              max={Math.max(0, totalSteps - 1)}
+              value={currentStep}
+              onChange={handleProgressChange}
+              onMouseDown={handleProgressMouseDown}
+            />
+          </div>
         </div>
       </div>
     </div>

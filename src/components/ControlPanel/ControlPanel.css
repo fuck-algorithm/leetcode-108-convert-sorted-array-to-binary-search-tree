@@ -1,22 +1,27 @@
 .control-panel {
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  padding: 10px 20px;
+  padding: 8px 20px;
   border-top: 1px solid #2d3748;
+}
+
+.control-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .control-buttons {
   display: flex;
   align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 10px;
+  gap: 8px;
+  flex-shrink: 0;
 }
 
 .control-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
+  gap: 4px;
+  padding: 6px 10px;
   background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
   border: 1px solid #4a5568;
   border-radius: 6px;
@@ -40,7 +45,7 @@
   font-size: 10px;
   color: #718096;
   background: rgba(0, 0, 0, 0.3);
-  padding: 2px 6px;
+  padding: 1px 4px;
   border-radius: 3px;
 }
 
@@ -62,16 +67,25 @@
   background: linear-gradient(135deg, #fc8181 0%, #e53e3e 100%);
 }
 
+.control-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1 1 auto;
+  min-width: 0;
+  justify-content: flex-end;
+}
+
 .speed-control {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-left: auto;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
 .speed-label {
   color: #a0aec0;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .speed-buttons {
@@ -80,7 +94,7 @@
 }
 
 .speed-btn {
-  padding: 4px 8px;
+  padding: 3px 7px;
   background: transparent;
   border: 1px solid #4a5568;
   border-radius: 4px;
@@ -102,28 +116,39 @@
 }
 
 .step-indicator {
+  flex-shrink: 0;
   color: #a0aec0;
-  font-size: 13px;
-  padding: 0 10px;
-}
-
-.progress-container {
-  width: 100%;
+  font-size: 12px;
+  white-space: nowrap;
 }
 
 .progress-bar {
   position: relative;
+  flex: 1 1 120px;
+  min-width: 120px;
   height: 8px;
   border-radius: 4px;
-  overflow: hidden;
+  background: #2d3748;
+  overflow: visible;
+}
+
+.progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  border-radius: 4px;
+  background: linear-gradient(to right, #48bb78, #68d391);
+  pointer-events: none;
 }
 
 .progress-input {
   position: absolute;
-  top: 0;
+  top: -4px;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 16px;
   opacity: 0;
   cursor: pointer;
   margin: 0;
@@ -136,19 +161,4 @@
   background: #48bb78;
   border-radius: 50%;
   cursor: pointer;
-}
-
-.progress-bar::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: var(--progress, 0%);
-  transform: translate(-50%, -50%);
-  width: 14px;
-  height: 14px;
-  background: #48bb78;
-  border-radius: 50%;
-  border: 2px solid #fff;
-  pointer-events: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
