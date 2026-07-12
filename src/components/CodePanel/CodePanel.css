@@ -72,33 +72,38 @@
 
 .code-line.highlighted {
   background: rgba(66, 153, 225, 0.2);
-  border-left: 3px solid #4299e1;
+  box-shadow: inset 3px 0 0 #4299e1;
   padding-left: 9px;
 }
 
 .line-number {
+  flex-shrink: 0;
+  width: 28px;
+  margin-right: 12px;
   color: #4a5568;
-  min-width: 28px;
   text-align: right;
-  padding-right: 12px;
   user-select: none;
   font-size: 11px;
 }
 
 .line-content {
+  flex: 1 1 auto;
+  min-width: 0;
   color: #e2e8f0;
   white-space: pre;
-  flex: 1;
+  overflow-x: hidden;
+  overflow-y: visible;
 }
 
 .variable-display {
+  flex-shrink: 0;
+  margin-left: 16px;
   color: #68d391;
-  margin-left: 20px;
   font-style: italic;
   opacity: 0.9;
+  white-space: nowrap;
 }
 
-/* 语法高亮 */
 .code-line .keyword {
   color: #f687b3;
 }
