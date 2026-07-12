@@ -139,7 +139,7 @@ function tokenize(line: string, language: ProgrammingLanguage): Token[] {
   };
 
   const tokens: Token[] = [];
-  let remaining = line;
+  const remaining = line;
   
   // 检查注释
   const commentStart = language === 'python' ? '#' : '//';
