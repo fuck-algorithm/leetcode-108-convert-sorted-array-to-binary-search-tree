@@ -57,43 +57,39 @@ export function InputPanel({ onInputChange, currentMethod, onMethodChange }: Inp
 
   return (
     <div className="input-panel">
-      <div className="input-section">
-        <div className="input-row">
-          <label className="input-label">输入数组:</label>
-          <input
-            type="text"
-            className="input-field"
-            value={inputValue}
-            onChange={(e) => handleInputChange(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
-            placeholder="输入有序数组，如 [-10,-3,0,5,9]"
-          />
-          <button className="submit-btn" onClick={handleSubmit}>
-            确认
-          </button>
-          <button className="random-btn" onClick={handleRandomGenerate}>
-            🎲 随机生成
-          </button>
-        </div>
-        
-        {error && <div className="error-message">{error}</div>}
-        
-        <div className="samples-row">
-          <span className="samples-label">示例数据:</span>
-          {SAMPLE_DATA.map((sample, index) => (
-            <button
-              key={index}
-              className="sample-btn"
-              onClick={() => handleSampleClick(sample.value)}
-            >
-              {sample.label}
-            </button>
-          ))}
-        </div>
-      </div>
+      <div className="input-bar">
+        <label className="bar-label">输入数组:</label>
+        <input
+          type="text"
+          className="input-field"
+          value={inputValue}
+          onChange={(e) => handleInputChange(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
+          placeholder="如 [-10,-3,0,5,9]"
+        />
+        <button className="submit-btn" onClick={handleSubmit}>
+          确认
+        </button>
+        <button className="random-btn" onClick={handleRandomGenerate}>
+          🎲 随机
+        </button>
 
-      <div className="method-section">
-        <span className="method-label">解法选择:</span>
+        <span className="bar-divider" />
+
+        <span className="bar-label">示例:</span>
+        {SAMPLE_DATA.map((sample, index) => (
+          <button
+            key={index}
+            className="sample-btn"
+            onClick={() => handleSampleClick(sample.value)}
+          >
+            {sample.label}
+          </button>
+        ))}
+
+        <span className="bar-divider" />
+
+        <span className="bar-label">解法:</span>
         <div className="method-tabs">
           {methods.map((method) => (
             <button
@@ -106,6 +102,8 @@ export function InputPanel({ onInputChange, currentMethod, onMethodChange }: Inp
           ))}
         </div>
       </div>
+
+      {error && <div className="error-message">{error}</div>}
     </div>
   );
 }
