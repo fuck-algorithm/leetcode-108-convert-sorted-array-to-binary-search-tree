@@ -72,8 +72,9 @@
 
 .code-line.highlighted {
   background: rgba(66, 153, 225, 0.2);
+  /* 用 inset box-shadow 代替 border-left，避免高亮行行号与代码内容左移；
+     padding-left 保持 12px 与普通行一致，阴影叠在 padding 内 */
   box-shadow: inset 3px 0 0 #4299e1;
-  padding-left: 9px;
 }
 
 .line-number {
