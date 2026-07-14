@@ -14,7 +14,9 @@ permissions:
 
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  # 短时间内多次 push 时，取消旧的正在运行的部署 run，只保留最新的一个。
+  # deploy-pages 是原子操作，被取消的旧 run 不会留下半成品站点。
+  cancel-in-progress: true
 
 jobs:
   build:
